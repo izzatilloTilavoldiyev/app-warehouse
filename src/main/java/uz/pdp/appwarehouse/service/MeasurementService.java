@@ -37,7 +37,7 @@ public class MeasurementService {
             return new Response("This measurement not found", false);
         Measurement editingMeasurement = optionalMeasurement.get();
         editingMeasurement.setName(measurement.getName());
-        measurementRepository.save(measurement);
+        measurementRepository.save(editingMeasurement);
         return new Response("Successfully edited", true);
     }
 
