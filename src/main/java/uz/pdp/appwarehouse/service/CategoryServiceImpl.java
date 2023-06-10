@@ -36,6 +36,11 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    public Category getCategory(Integer id) {
+        return categoryRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public Response update(Integer id, CategoryDto categoryDto) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isEmpty())
