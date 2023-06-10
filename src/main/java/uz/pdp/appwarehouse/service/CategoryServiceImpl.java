@@ -19,15 +19,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Response addCategory(CategoryDto categoryDto) {
         Category category = new Category();
-        category.setName(categoryDto.getName());
-        if (categoryDto.getParent_category_id() != null) {
-            Optional<Category> optionalParentCategory = categoryRepository.findById(categoryDto.getParent_category_id());
-            if (optionalParentCategory.isEmpty())
-                return new Response("This parent category not found", false);
-            category.setParentCategory(optionalParentCategory.get());
-        }
-        categoryRepository.save(category);
-        return new Response("Successfully saved", true);
+        return addToDB(category, categoryDto);
     }
 
     @Override
@@ -46,15 +38,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (optionalCategory.isEmpty())
             return new Response("This category not found", false);
         Category category = optionalCategory.get();
-        if (categoryDto.getParent_category_id() != null) {
-            Optional<Category> optionalParentCategory = categoryRepository.findById(categoryDto.getParent_category_id());
-            if (optionalParentCategory.isEmpty())
-                return new Response("This parent category not found", false);
-            category.setParentCategory(optionalParentCategory.get());
-        }
-        category.setName(categoryDto.getName());
-        categoryRepository.save(category);
-        return new Response("Successfully edited", true);
+        return addToDB(category, categoryDto);
     }
 
     @Override
@@ -64,5 +48,22 @@ public class CategoryServiceImpl implements CategoryService{
             return new Response("This category not found", false);
         categoryRepository.delete(optionalCategory.get());
         return new Response("Successfully deleted", true);
+    }
+
+    private Response addToDB(Category category, CategoryDto categoryDto) {
+        if (categoryDto.getParent_category_id() != null) {
+            if (categoryRepository.existsByParentCategoryIdAndName
+                    (categoryDto.getParent_category_id(), categoryDto.getName()))
+                return new Response("This category exists in parent category", false);
+            Optional<Category> optionalParentCategory = categoryRepository.findById(categoryDto.getParent_category_id());
+            if (optionalParentCategory.isEmpty())
+                return new Response("This parent category not found", false);
+            category.setParentCategory(optionalParentCategory.get());
+        }
+        if (categoryRepository.existsByName(categoryDto.getName()))
+            return new Response("This category exists", false);
+        category.setName(categoryDto.getName());
+        categoryRepository.save(category);
+        return new Response("Successfully saved", true);
     }
 }
