@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.appwarehouse.dto.CategoryDto;
 import uz.pdp.appwarehouse.dto.response.Response;
 import uz.pdp.appwarehouse.entity.Category;
-import uz.pdp.appwarehouse.service.CategoryService;
+import uz.pdp.appwarehouse.service.CategoryServiceImpl;
 
 import java.util.List;
 
@@ -14,29 +14,29 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    CategoryService categoryService;
+    CategoryServiceImpl categoryServiceImpl;
 
     //CREATE
     @PostMapping
     public Response addCategory(@RequestBody CategoryDto categoryDto) {
-        return categoryService.addCategory(categoryDto);
+        return categoryServiceImpl.addCategory(categoryDto);
     }
 
     //READ
     @GetMapping
     public List<Category> getAllCategories() {
-        return categoryService.getAllCategories();
+        return categoryServiceImpl.getAllCategories();
     }
 
     //UPDATE
     @PutMapping("/{id}")
     public Response updateCategory(@PathVariable Integer id, @RequestBody CategoryDto categoryDto) {
-        return categoryService.update(id, categoryDto);
+        return categoryServiceImpl.update(id, categoryDto);
     }
 
     //DELETE
     @DeleteMapping("/{id}")
     public Response deleteCategory(@PathVariable Integer id) {
-        return categoryService.delete(id);
+        return categoryServiceImpl.delete(id);
     }
 }
