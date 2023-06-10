@@ -20,8 +20,4 @@ public class AttachmentController {
     public Response upload(MultipartHttpServletRequest request) {
         return attachmentService.uploadFile(request);
     }
-
-    //READ
-    //UPDATE
-    //DELETE
 }
