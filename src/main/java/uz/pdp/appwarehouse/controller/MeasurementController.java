@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.appwarehouse.dto.response.Response;
 import uz.pdp.appwarehouse.entity.Measurement;
-import uz.pdp.appwarehouse.service.MeasurementService;
+import uz.pdp.appwarehouse.service.MeasurementServiceImpl;
 
 import java.util.List;
 
@@ -13,35 +13,35 @@ import java.util.List;
 public class MeasurementController {
 
     @Autowired
-    MeasurementService measurementService;
+    MeasurementServiceImpl measurementServiceImpl;
 
     //CREATE
     @PostMapping
     public Response addMeasurement(@RequestBody Measurement measurement) {
-        return measurementService.addMeasurement(measurement);
+        return measurementServiceImpl.addMeasurement(measurement);
     }
 
     //READ ALL
     @GetMapping
     public List<Measurement> getAllMeasurements() {
-        return measurementService.getAllMeasurements();
+        return measurementServiceImpl.getAllMeasurements();
     }
 
     //READ ONE
     @GetMapping("/{id}")
     public Measurement getMeasurement(@PathVariable Integer id) {
-        return measurementService.getMeasurement(id);
+        return measurementServiceImpl.getMeasurement(id);
     }
 
     //UPDATE
     @PutMapping("/{id}")
     public Response editeMeasurement(@PathVariable Integer id, @RequestBody Measurement measurement) {
-        return measurementService.editeMeasurement(id, measurement);
+        return measurementServiceImpl.editeMeasurement(id, measurement);
     }
 
     //DELETE
     @DeleteMapping("/{id}")
     public Response deleteMeasurement(@PathVariable Integer id) {
-        return measurementService.deleteMeasurement(id);
+        return measurementServiceImpl.deleteMeasurement(id);
     }
 }
