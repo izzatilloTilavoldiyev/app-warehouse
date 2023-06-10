@@ -36,6 +36,8 @@ public class MeasurementServiceImpl implements MeasurementService{
 
     @Override
     public Response editeMeasurement(Integer id, Measurement measurement) {
+        if (measurementRepository.existsByName(measurement.getName()))
+            return new Response("This measurement is exists", false);
         Optional<Measurement> optionalMeasurement = measurementRepository.findById(id);
         if (optionalMeasurement.isEmpty())
             return new Response("This measurement not found", false);
